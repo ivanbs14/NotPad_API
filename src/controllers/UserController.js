@@ -73,7 +73,7 @@ class UserController {
             name = ?,
             email = ?,
             password = ?,
-            update_at = DATETIME('now')
+            updated_at = DATETIME('now')
             WHERE id = ?`,
             [user.name, user.email, user.password, user_id]
         );
