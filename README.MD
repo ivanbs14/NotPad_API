@@ -2,7 +2,7 @@
 
 <p align="center">
 Desenvolvido por Ivan Barbosa.<br>
-Visite o projeto finalizado https://notepadss.netlify.app/
+Visite o projeto finalizado https://notepadss.netlify.app/ <br>
 Layout UI/UX RocketSeat.
 </p>
 
