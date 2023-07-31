@@ -1,28 +1,21 @@
 /* imports */
 const { hash, compare } = require("bcryptjs");
 const appError = require("../utils/appError");
+
+const UserRepository = require("../repositories/UserRepository");
 const sqliteConnection = require("../database/sqlite");
+const UserCreateService = require("../services/UserCreateService");
 
 class UserController {
     async create(request, response) {
        const { name, email, password } = request.body;
-        
-       const database = await sqliteConnection();
-       const checkUsersExists = await database.get("SELECT * FROM users WHERE email = (?)", [email])
 
-       /* exibindo error caso email ja exist */
-       if(checkUsersExists) {
-        throw new appError("Este email já esta em uso.");
-       }
+       const userRepository = new UserRepository();
+       const userCreateService = new UserCreateService(userRepository);
 
-       /* criptografando senha */
-       const hashedPassword = await hash(password, 8);
+       await userCreateService.execute({ name, email, password });
 
-       /* recebendo valores para o banco de dados */
-       await database.run(
-        "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
-        [name, email, hashedPassword]
-       );
+       /* conteudo foi desacoplado para pasta services, usercreateservices */
        
        return response.status(201).json();
     }
